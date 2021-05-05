@@ -2,9 +2,13 @@ package tn.esprit.controller;
 
 import java.util.List;
 
+import org.ocpsoft.rewrite.annotation.Join;
+import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +24,10 @@ import tn.esprit.entities.Bill;
 import tn.esprit.repository.BillRepository;
 import tn.esprit.service.IBillService;
 
-@RestController
+@Scope(value = "session")
+@Component(value = "BillController")
+@ELBeanName(value = "BillController")
+@Join(path = "/bill", to = "/SpringMVC/billAll.jsf")
 public class BillRestControllerImpl {
 	@Autowired
 	IBillService bills;

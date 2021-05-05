@@ -2,6 +2,11 @@ package tn.esprit.controller;
 
 import java.util.List;
 
+import org.ocpsoft.rewrite.el.ELBeanName;
+import org.ocpsoft.rewrite.annotation.Join;
+import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +22,14 @@ import com.sun.el.parser.ParseException;
 import tn.esprit.entities.Appointment;
 import tn.esprit.service.IAppointmentService;
 
-@RestController
+@Scope(value = "session")
+@Component(value = "appointmentRest")
+@ELBeanName(value = "appointmentRest")
+@Join(path = "/", to = "/SpringMVC/appointmentAll.jsf")
 public class AppointmentRestControllerImpl {
 	@Autowired
 	IAppointmentService appointmentss;
-
+ 
 	@PostMapping("/ajouter_Doctor_rendezVous/{id_user}/{id_doctor}")
 	public String ajouter_Doctor_rendezVous(@PathVariable("id_user") int id_user,
 			@PathVariable("id_doctor") int id_doctor, @RequestBody Appointment appointment) throws ParseException {
@@ -44,8 +52,7 @@ public class AppointmentRestControllerImpl {
 		return appointmentss.update_appointment_By_User(user_id, appointment_id, appointment);
 	}
 
-	@GetMapping(value = "/listofAppointment")
-	@ResponseBody
+
 	public List<Appointment> getAllAppointment() {
 		return appointmentss.getAllAppointment();
 	}

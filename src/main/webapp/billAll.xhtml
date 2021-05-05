@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="layout.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:panel header="Bills List">
+                <p:dataTable id="table" var="bill" value="#{BillController.getAllBill()}">         
+                    <p:column>
+                        <f:facet name="header">Id</f:facet>
+                        <h:outputText value="#{bill.id}" />
+                    </p:column>
+                     <p:column>
+                        <f:facet name="header">Description</f:facet>
+                        <h:outputText value="#{bill.description}" />
+                    </p:column>     
+                    <p:column>
+                        <f:facet name="header">Date</f:facet>
+                        <h:outputText value="#{bill.dateOfBill}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Price</f:facet>
+                        <h:outputText value="#{bill.totalPrice}" />
+                    </p:column>         
+                    <p:column>
+                        <f:facet name="header">Kindergarten</f:facet>
+                        <h:outputText value="#{bill.kindergarten.name}" />
+                    </p:column>    
+                    <p:column>
+                        <f:facet name="header">User</f:facet>
+                        <h:outputText value="#{bill.user.firstName}" />
+                    </p:column>    
+                     
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
