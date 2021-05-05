@@ -9,5 +9,6 @@ public class KidZoneBApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KidZoneBApplication.class, args);
 	}
+	
 
 }
