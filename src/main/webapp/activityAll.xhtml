@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="form">
+                                 <p:button href="/SpringMVC/activityAdd.jsf" value="Add activity" />                         
+        
+            <p:panel header="Activities List">
+                                                <h:outputText value="Number of events: #{activityController.getNombreActivityJPQL()}" />
+            
+                <p:dataTable id="table" var="activity" value="#{activityController.getAllActivity()}">         
+                    <p:column>
+                        <f:facet name="header">Id</f:facet>
+                        <h:outputText value="#{activity.id}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Category</f:facet>
+                        <h:outputText value="#{activity.category}" />
+                    </p:column>    
+                     <p:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{activity.name}" />
+                    </p:column>     
+                    <p:column>
+                        <f:facet name="header">Description</f:facet>
+                        <h:outputText value="#{activity.description}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Date</f:facet>
+                        <h:outputText value="#{activity.dateOfActivity}" />
+                    </p:column>         
+                    <p:column>
+                        <f:facet name="header">Kindergarten</f:facet>
+                        <h:outputText value="#{activity.kindergarten.name}" />
+                    </p:column>    
+                    <p:column>
+                        <f:facet name="header">User</f:facet>
+                        <h:outputText value="#{activity.user.firstName}" />
+                    </p:column>    
+                     <p:column>
+                        <f:facet name="header">User</f:facet>
+						<div	
+												class="event_image d-flex flex-column align-items-center justify-content-center">
+													<img src="#{event.photo}" style="width: 40%; height: 60%"
+													class="avatar img-circle img-thumbnail" alt="avatar"/>
+											</div>                   
+											 </p:column>    
+                    <p:column>
+                         <h:commandLink id="btnsupp" value="Delete"
+												action="#{activityController.deleteActivityById(activity.id)}">
+
+												<i class="ace-icon fa fa-trash-o bigger-120 white"></i>
+											</h:commandLink>
+                    </p:column>                        
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
