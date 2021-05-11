@@ -10,13 +10,10 @@
         <h:form id="form">
         	<p:button href="/SpringMVC/appointmentAdd.jsf"
 				value="Add appointment " />
-        	<p:button href="/SpringMVC/appointmentsOfToday.jsf"
-				value="Today's appointment list " />
-            <p:panel header="Appointments List"> <h:outputText
-					value="Number of appointments: #{appointmentJsfController.getNombreAppointmentJPQL()}" />
-                <p:dataTable id="table" var="appointment" value="#{appointmentRest.getAllAppointment()}">         
-               
-                 
+        	<p:button href="/SpringMVC/appointmentAll.jsf"
+				value="Appointments list " />
+            <p:panel header="Today's appointments list">
+                <p:dataTable id="table" var="appointment" value="#{appointmentJsfController.getAllAppointmentsPourToday()}">         
                     <p:column>
                         <f:facet name="header">Id</f:facet>
                         <h:outputText value="#{appointment.id}" />
@@ -24,7 +21,7 @@
                     <p:column>
                         <f:facet name="header">Description</f:facet>
                         <h:outputText value="#{appointment.description}" />
-                    </p:column>   
+                    </p:column> 
                     <p:column>
                         <f:facet name="header">Date</f:facet>
                         <h:outputText value="#{appointment.date}" />

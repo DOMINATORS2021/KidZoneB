@@ -45,6 +45,16 @@ public class Appointment implements Serializable {
 	
 	public Appointment () {}
 
+
+	public Appointment(String description, Date date, String beginhour, String endhour) {
+		super();
+		Description = description;
+		this.date = date;
+		Beginhour = beginhour;
+		Endhour = endhour;
+	}
+
+
 	public int getId() {
 		return id;
 	}

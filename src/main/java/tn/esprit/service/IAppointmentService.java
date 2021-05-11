@@ -29,4 +29,19 @@ public interface IAppointmentService {
 
 	List<Appointment> FindAppointmentsByparent(int parent_id);
 
+	//JSF
+	
+	public List<Appointment> getAllAppointmentsPourToday();
+
+	public void ajouterAppointment(Appointment appointment);
+
+    public Appointment getAppointmentbyId(int appointmentId);
+    
+    Appointment saveAppointment(Appointment appointment);
+    public int addorupdateAppointment(Appointment appointment);
+
+	public void deleteAppointmentbyId(int appointmentId);
+
+	public int getNombreAppointmentJPQL();
+
 }

@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="layout.xhtml">
+	<ui:define name="content">
+		<h:form id="activityForm">
+			<p:button href="/SpringMVC/appointmentAll.jsf"
+				value="List of Appointments " />
+        	<p:button href="/SpringMVC/appointmentsOfToday.jsf"
+				value="Today's appointments list " />
+			<p:panel header="Activity Form">
+				<h:panelGrid columns="1">
+					<p:outputLabel for="description" value="Description: " />
+					<p:inputText id="description"
+						value="#{appointmentJsfController.description}" />
+						
+					<p:outputLabel for="date" value="Date: " />
+					<p:inputText id="date"
+						value="#{appointmentJsfController.date}"
+						p:placeholder="yyyy-mm-dd">
+						<f:convertDateTime pattern="yyyy-MM-dd" />
+					</p:inputText>
+					
+					<p:outputLabel for="beginhour" value="Beginhour: " />
+					<p:inputText id="beginhour"	value="#{appointmentJsfController.beginhour}" />
+						
+				<p:outputLabel for="endhour" value="Endhour: " />
+				<p:inputText id="endhour" value="#{appointmentJsfController.endhour}" />
+					
+					<h:commandButton value="Save" action="#{appointmentJsfController.addAppointment()}" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

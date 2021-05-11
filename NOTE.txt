@@ -1,0 +1,8 @@
+This contains:
+affichage
+ajout
+suppression
+
+does not contain :
+
+modification

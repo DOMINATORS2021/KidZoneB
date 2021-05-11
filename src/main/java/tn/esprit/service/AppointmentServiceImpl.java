@@ -225,4 +225,47 @@ public class AppointmentServiceImpl implements IAppointmentService {
 		return null;
 	}
 
+	
+	
+	//JSF
+	
+	@Override
+	public Appointment saveAppointment(Appointment event) {
+
+		return appointments.save(event);
+	}
+
+	@Override
+	@javax.transaction.Transactional
+	public Appointment getAppointmentbyId(int appointmentId) {
+		return  appointments.findById(appointmentId).get();
+	}
+
+	@Override
+	public void ajouterAppointment(Appointment appointment) {
+		appointments.save(appointment);
+
+	}
+	@Override
+	public int addorupdateAppointment(Appointment appointment) {
+		appointments.save(appointment);
+		return appointment.getId();
+	}
+	
+	@Override
+	public void deleteAppointmentbyId(int appointmentId) {
+		Appointment a =appointments.findById(appointmentId).orElse(null);
+		appointments.delete(a);
+
+	}
+	
+	@Override
+	public List<Appointment> getAllAppointmentsPourToday() {
+		return appointments.getAllAppointmentsPourToday();
+	}
+	
+	@Override
+	public int getNombreAppointmentJPQL() {
+		return appointments.getNombreAppointmentJPQL();
+	}
 }

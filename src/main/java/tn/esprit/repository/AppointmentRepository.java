@@ -25,5 +25,11 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Integ
 	@Query("select a  from Appointment a  join a.user  u WHERE  u.id =:parent_id and status='1'")
 	List<Appointment> FindAppointmentsByparent(@Param("parent_id") int parent_id);
 
+	@Query("SELECT e from Appointment e where e.date = CURRENT_DATE()")
+	public List<Appointment> getAllAppointmentsPourToday();
+	
+	@Query("SELECT count (*) from Appointment")
+	public int getNombreAppointmentJPQL();
+
 }
 
