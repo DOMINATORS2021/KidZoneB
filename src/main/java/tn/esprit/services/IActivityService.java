@@ -34,16 +34,5 @@ public interface IActivityService {
 	public List<Activity> getAllActivityPourToday();
 
 	public List<Activity> getAllActivityOrdonneParDate();
-	
-	//JSF
-	
-	public void ajouterActivity(Activity activity);
-
-    public Activity getActivitybyId(int activityId);
-    
-    Activity saveActivity(Activity activity);
-    public int addorupdateActivity(Activity activity);
-
-
 
 }

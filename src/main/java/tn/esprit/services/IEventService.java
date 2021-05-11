@@ -9,7 +9,7 @@ import java.util.List;
 public interface IEventService {
 
 	public ResponseEntity<String> ajout(Event event, int kinderId,int userId,MultipartFile file);
-	
+
 	public List<Event> getAllEvents();
 
 	public void deleteEventById(int EventId);
@@ -23,15 +23,4 @@ public interface IEventService {
 	public List<Event> getAllEventPourToday();
 
 	public List<Event> getAllEventOrdonneParDate();
-	
-	//JSF
-	
-	public void ajouterEventbyUser(Event event);
-
-    public Event getEventbyId(int Eventid);
-    
-	Event saveEvent(Event event);
-    public int addorupdateEvent(Event event);
-
-
 }

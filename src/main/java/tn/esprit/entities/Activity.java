@@ -53,11 +53,12 @@ public class Activity implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Category category;
 	
-	public Activity(String name, String description, Date dateOfActivity, Category category) {
+	public Activity(String name, String description, Date dateOfActivity, String photo, Category category) {
 		super();
 		Name = name;
 		Description = description;
 		DateOfActivity = dateOfActivity;
+		Photo = photo;
 		this.category = category;
 	}
 

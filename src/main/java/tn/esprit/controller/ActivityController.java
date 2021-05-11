@@ -1,13 +1,9 @@
 package tn.esprit.controller;
 
-import org.ocpsoft.rewrite.annotation.Join;
-import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.entities.Activity;
@@ -16,15 +12,11 @@ import tn.esprit.services.IActivityService;
 
 import java.util.List;
 
-@Scope(value = "session")
-@Component(value = "activityController")
-@ELBeanName(value = "activityController")
-@Join(path = "/activity", to = "/SpringMVC/activityAll.jsf")
+@RestController
 public class ActivityController {
 
 	@Autowired
 	IActivityService iactivityservice;
-String keyword;
 
 	// http://localhost:8081/SpringMVC/servlet/ajoutactivity/1/1
 	// attributes ,values,file
@@ -90,16 +82,9 @@ String keyword;
 		return iactivityservice.getAllActivityByCategorie(category);
 	}
 
-
-	public String getKeyword() {
-		return keyword;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
-
-	public List<Activity> search(String keyword) {
+	@GetMapping(value="/seach/{keyword}")
+	@ResponseBody
+	public List<Activity> search(@PathVariable("keyword") String keyword) {
 		return iactivityservice.search(keyword);
 	}
 

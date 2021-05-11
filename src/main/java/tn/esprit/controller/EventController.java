@@ -2,13 +2,9 @@ package tn.esprit.controller;
 
 import java.util.List;
 
-import org.ocpsoft.rewrite.annotation.Join;
-import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.entities.Event;
 import tn.esprit.services.IEventService;
 
-@Scope(value = "session")
-@Component(value = "eventController")
-@ELBeanName(value = "eventController")
-@Join(path = "/event", to = "/SpringMVC/eventsAll.jsf")
+@Controller
 public class EventController {
 
 	@Autowired
@@ -43,7 +36,8 @@ public class EventController {
 	}
 
 	// http://localhost:8081/SpringMVC/servlet/getAllEvent
-
+	@GetMapping(value = "/getAllEvent")
+	@ResponseBody
 	public List<Event> getAllEvents() {
 		return ieventservice.getAllEvents();
 	}
@@ -81,7 +75,8 @@ public class EventController {
 	}
 
 	// http://localhost:8081/SpringMVC/servlet/retrievealleventsoftoday
-
+	@GetMapping(value = "/retrievealleventsoftoday")
+	@ResponseBody
 	public List<Event> getAllEventPourToday() {
 		return ieventservice.getAllEventPourToday();
 	}

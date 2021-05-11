@@ -17,7 +17,6 @@ import tn.esprit.repository.EventRepository;
 import tn.esprit.repository.KindergartenRepository;
 import tn.esprit.repository.UserRepository;
 
-
 @Service
 public class EventService implements IEventService {
 
@@ -105,30 +104,5 @@ public class EventService implements IEventService {
 	public List<Event> getAllEventOrdonneParDate() {
 		return eventrep.getAllEventOrdonneParDate();
 	}
-	
-	
-	//JSF
-	
-	@Override
-	public Event saveEvent(Event event) {
 
-		return eventrep.save(event);
-	}
-
-	@Override
-	@javax.transaction.Transactional
-	public Event getEventbyId(int Eventid) {
-		return  eventrep.findById(Eventid).get();
-	}
-
-	@Override
-	public void ajouterEventbyUser(Event event) {
-		eventrep.save(event);
-
-	}
-	@Override
-	public int addorupdateEvent(Event event) {
-		eventrep.save(event);
-		return event.getId();
-	}
 }

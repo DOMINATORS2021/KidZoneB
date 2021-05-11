@@ -151,28 +151,5 @@ public class ActivityService implements IActivityService {
 		return Activityrep.getAllActivityOrdonneParDate();
 	}
 
-	//JSF
-	
-	@Override
-	public Activity saveActivity(Activity event) {
 
-		return Activityrep.save(event);
-	}
-
-	@Override
-	@javax.transaction.Transactional
-	public Activity getActivitybyId(int Eventid) {
-		return  Activityrep.findById(Eventid).get();
-	}
-
-	@Override
-	public void ajouterActivity(Activity activity) {
-		Activityrep.save(activity);
-
-	}
-	@Override
-	public int addorupdateActivity(Activity activity) {
-		Activityrep.save(activity);
-		return activity.getId();
-	}
 }

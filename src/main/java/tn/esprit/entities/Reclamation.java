@@ -26,7 +26,7 @@ public class Reclamation implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 	
 	@Size(min = 10, max = 300)
 	private String Description;
@@ -63,11 +63,11 @@ public class Reclamation implements Serializable{
 		Photo = photo;
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

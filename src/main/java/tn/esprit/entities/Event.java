@@ -153,14 +153,6 @@ public class Event implements Serializable {
 	}
 
 
-	public Event(String name, String description, Date dateOfEvent) {
-		super();
-		Name = name;
-		Description = description;
-		DateOfEvent = dateOfEvent;
-	}
-
-
 
 
 
