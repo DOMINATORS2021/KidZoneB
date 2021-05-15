@@ -217,34 +217,34 @@
 	
 			<div class="row">
 			<div class="col-xs-12">
-				<h4 class="header smaller lighter blue">Update an event</h4>
+				<h4 class="header smaller lighter blue">Add Bill</h4>
 
 				<div class="clearfix">
 					<div class="pull-right tableTools-container"></div>
 				</div>
 				<div class="container">
-						
-					<h:form id="event-form">
+
+					<h:form id="activity-form">
 									<div class="col s12 input-field">
-						<p:outputLabel for="name" value="Name: " /> <br></br>
-					<p:inputText id="name" value="#{eventJsfUpdateController.name}" /><br></br>
+					
 					<p:outputLabel for="description" value="Description: " /><br></br>
 					<p:inputText id="description"
-						value="#{eventJsfUpdateController.description}" /><br></br>
-					<p:outputLabel for="dateOfEvent" value="Date: " /><br></br>
-					<p:inputText id="dateOfEvent"
-						value="#{eventJsfUpdateController.dateOfEvent}"
+						value="#{billJsfController.description}" /><br></br>
+					<p:outputLabel for="totalPrice" value="TotalPrice: " /><br></br>
+					<p:inputText id="totalPrice" value="#{billJsfController.totalPrice}" /><br></br>
+					<p:outputLabel for="dateOfBill" value="Date: " /><br></br>
+					<p:inputText id="dateOfBill"
+						value="#{billJsfController.dateOfBill}"
 						p:placeholder="yyyy-mm-dd">
 						<f:convertDateTime pattern="yyyy-MM-dd" />
-					</p:inputText><br></br>
-										
-									<br></br>
+					</p:inputText>
+					
+									<br></br><br></br>
 									</div>
 
 									<div class="col s12 input-field">
-										<h:commandLink value="Update Event" styleClass="btn btn-large"
-										action="#{eventJsfUpdateController.updateEventjsf(event.Eventid)}"></h:commandLink>
-																						
+										<h:commandLink value="Add Bill" styleClass="btn btn-large"
+											action="#{billJsfController.addBill()}"></h:commandLink>
 									</div>
 								</h:form>
 					</div>
@@ -300,4 +300,3 @@ $(document).ready(function(){
 </ui:composition>
 
 </html>
- 

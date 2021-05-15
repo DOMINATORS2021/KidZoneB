@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tn.esprit.kidzone.entity.Appointment;
 import tn.esprit.kidzone.entity.Bill;
 import tn.esprit.kidzone.entity.Kindergarten;
 import tn.esprit.kidzone.entity.User;
@@ -128,6 +129,38 @@ public class BillServiceImpl implements IBillService {
 	@Override
 	public long getNumberOfChildForUserInKinderJPQL(Long iduser, int idkinder) {
 		return bills.getNumberOfChildForUserInKinderJPQL(iduser, idkinder);
+	}
+
+	//JSF
+	
+	@Override
+	public Bill saveBill(Bill bill) {
+
+		return bills.save(bill);
+	}
+
+	@Override
+	@javax.transaction.Transactional
+	public Bill getBillbyId(int bill_Id) {
+		return  bills.findById(bill_Id).get();
+	}
+
+	@Override
+	public void ajouterBill(Bill bill) {
+		bills.save(bill);
+
+	}
+	@Override
+	public int addorupdateBill(Bill bill) {
+		bills.save(bill);
+		return bill.getId();
+	}
+	
+	@Override
+	public void deleteBillbyId(int bill_Id) {
+		Bill a =bills.findById(bill_Id).orElse(null);
+		bills.delete(a);
+
 	}
 
 }

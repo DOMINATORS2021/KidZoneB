@@ -1,7 +1,6 @@
 package tn.esprit.kidzone.controller;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
@@ -74,6 +73,20 @@ public class EventJsfUpdateController {
 		this.name = name;
 		this.description = description;
 		this.dateOfEvent = dateOfEvent;
+	}
+	String a;
+
+	private String getCountryFromJSF(FacesContext context) {
+		Map<String, String> parameters = context.getExternalContext().getRequestParameterMap();
+		return parameters.get("Eventid");
+	}
+
+	public Long outcome() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		a = getCountryFromJSF(context);
+		System.out.println("****************"+a);
+		return Long.parseLong(a);
+
 	}
 	
 	public Event getEvetnbyId(int Eventid){

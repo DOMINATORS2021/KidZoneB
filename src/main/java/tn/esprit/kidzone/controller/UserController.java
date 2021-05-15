@@ -26,7 +26,6 @@ import tn.esprit.kidzone.services.IUserService;
 public class UserController {
 	private  static String currentUser ;
 	
-	
 	 
 
 	public static String getCurrentUser() {

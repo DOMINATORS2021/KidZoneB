@@ -116,6 +116,6 @@ public String updateEventjsf(int Eventid){
 
 public String gopageEvent(Long Eventid){
 	
-	return "/eventUpdate.xhtml?faces-redirect=true&idstock=" + Eventid.toString();
+	return "/eventUpdate.xhtml?faces-redirect=true&idevent=" + Eventid.toString();
 }
 }
