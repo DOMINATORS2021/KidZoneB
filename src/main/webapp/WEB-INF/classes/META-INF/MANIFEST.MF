@@ -1,9 +1,10 @@
 Manifest-Version: 1.0
-Implementation-Title: KidZoneB
+Implementation-Title: demo-2
 Implementation-Version: 1.0
 Built-By: Raslen
 Implementation-Vendor-Id: Esprit
 Build-Jdk: 1.8.0_60
-Implementation-URL: https://spring.io/projects/spring-boot/KidZoneB
+Implementation-URL: https://spring.io/projects/spring-boot/Kindergarte
+ n
 Created-By: Maven Integration for Eclipse
 
