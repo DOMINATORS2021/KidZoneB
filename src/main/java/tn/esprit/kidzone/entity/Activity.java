@@ -61,6 +61,14 @@ public class Activity implements Serializable {
 		this.category = category;
 	}
 
+	public Activity(int id,String name, String description, Date dateOfActivity, Category category) {
+		super();
+		this.id=id;
+		Name = name;
+		Description = description;
+		DateOfActivity = dateOfActivity;
+		this.category = category;
+	}
 	public Category getCategory() {
 		return category;
 	}

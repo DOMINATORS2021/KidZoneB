@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import tn.esprit.kidzone.services.IActivityService;
 import tn.esprit.kidzone.entity.Activity;
 import tn.esprit.kidzone.entity.Category;
+import tn.esprit.kidzone.entity.Event;
 
 @Scope(value = "session")
 @Component(value = "activityJsfController")
@@ -29,7 +30,7 @@ public class ActivityJsfController {
 	@Autowired
 	IActivityService activityservice;
 	
-	
+	private int idActivityToBeUpdated;
 	private int id;
 	private String name;
 	private String description;
@@ -40,6 +41,12 @@ public class ActivityJsfController {
 	@Enumerated(EnumType.STRING) 
 	private Category category;
 	
+	public int getIdActivityToBeUpdated() {
+		return idActivityToBeUpdated;
+	}
+	public void setIdActivityToBeUpdated(int idActivityToBeUpdated) {
+		this.idActivityToBeUpdated = idActivityToBeUpdated;
+	}
 	public int getId() {
 		return id;
 	}
@@ -104,28 +111,25 @@ public void deleteEvent(int activityId) {
 }
 
 
-public void displayEvent(Activity activity){
+public void displayActivity(Activity activity){
+	String navigateTo = "/activityUpdate.xhtml?faces-redirect=true";
+	this.setIdActivityToBeUpdated(activity.getId());
 	this.setName(activity.getName());
 	this.setDescription(activity.getDescription());
-	
+	this.setDateOfActivity(activity.getDateOfActivity());
+	this.setCategory(activity.getCategory());
+
 }
 
-public String updateEventjsf(int Eventid){
-	String navigateTo = "/event";
-	Activity e=activityservice.getActivitybyId(Eventid);
-	
-	e.setName(name);
-	System.out.println("****************"+name);
-	e.setDescription(description);
-	System.out.println("****************"+description);
-	e.setDateOfActivity(dateOfActivity);
-	activityservice.saveActivity(e);
+public String updateActivityjsf(){
+	String navigateTo = "/activityAll.xhtml?faces-redirect=true";
+	activityservice.addorupdateActivity(new Activity(idActivityToBeUpdated,name,description,dateOfActivity,category));
 	return navigateTo;
 }
 
 
-public String gopageEvent(Long Eventid){
+public String gopageActivity(Long activityId){
 	
-	return "/eventUpdate.xhtml?faces-redirect=true&idstock=" + Eventid.toString();
+	return "/activityUpdate.xhtml?faces-redirect=true&idactivity=" + activityId.toString();
 }
 }

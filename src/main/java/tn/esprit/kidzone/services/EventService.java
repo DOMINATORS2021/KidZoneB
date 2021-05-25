@@ -1,5 +1,5 @@
-package tn.esprit.kidzone.services;
 
+package tn.esprit.kidzone.services;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
@@ -127,8 +127,8 @@ public class EventService implements IEventService {
 
 	}
 	@Override
-	public int addorupdateEvent(Event event) {
+	public String addorupdateEvent(Event event) {
 		eventrep.save(event);
-		return event.getId();
+		return null;
 	}
 }

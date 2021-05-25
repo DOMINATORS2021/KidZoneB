@@ -4,6 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
 ><head>
   <!-- Theme Made By www.w3schools.com - No Copyright -->
   <title>KidZone</title>
@@ -214,100 +215,44 @@
 <br></br>
 <br></br>
 	
-					
-					<div class="row">
+			<div class="row">
 			<div class="col-xs-12">
-				<h4 class="header smaller lighter blue">All Events table</h4>
+				<h4 class="header smaller lighter blue">Update an activity</h4>
 
 				<div class="clearfix">
 					<div class="pull-right tableTools-container"></div>
 				</div>
-				<h5 >Number of activities : 
-				<h:outputText class="label label-sm label-success"
-					value=" #{activityController.getNombreActivityJPQL()}" />
-									</h5>
-					
+				<div class="container">
 
-							
-							
-								<div>
-								
-					<table id="dynamic-table"
-						class="table table-striped table-bordered table-hover">
-						<thead>
-							<tr>
-								<!-- 							<th class="center"><label class="pos-rel"> <input -->
-								<!-- 									type="checkbox" class="ace" /> <span class="lbl"></span> -->
-								<!-- 							</label></th> -->
+					<h:form id="activity-form">
+									<div class="col s12 input-field">
+					<p:outputLabel for="name" value="Name: " /><br></br>
+					<p:inputText id="name" value="#{activityJsfController.name}" /><br></br>
+					<p:outputLabel for="description" value="Description: " /><br></br>
+					<p:inputText id="description"
+						value="#{activityJsfController.description}" /><br></br>
+					<p:outputLabel for="dateOfEvent" value="Date: " /><br></br>
+					<p:inputText id="dateOfEvent"
+						value="#{activityJsfController.dateOfActivity}"
+						p:placeholder="yyyy-mm-dd">
+						<f:convertDateTime pattern="yyyy-MM-dd" />
+					</p:inputText><br></br>
+					<h:outputText value="Category:"></h:outputText><br></br>
+					<h:selectOneMenu value="#{activityJsfController.category}">
+						<f:selectItem itemLabel="Choisir la catégorie" itemValue="#{null}" />
+						<f:selectItems value="#{activityJsfController.categories}" />
+					</h:selectOneMenu>
+									<br></br><br></br>
+									</div>
 
-								<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>
-									id</th>
-									
-								<th class="hidden-480">Name</th>
-
-								<th>Category</th>
-
-								<th>Description</th>
-
-								<th>Date</th>
-								<th>Delete</th>
-								<th>Update</th>
-
-
-
-							</tr>
-						</thead>
-
-						<ui:repeat var="activity" value="#{activityController.getAllActivity()}"
-							varStatus="status">
-
-							<tr>
-									<td class="hidden-480"><h:outputText
-										value="#{activity.id}" /></td>
-								
-								<td class="hidden-480"><h:outputText
-										value="#{activity.name}" /></td>
-								<td class="hidden-480"><h:outputText
-										value="#{activity.category}" /></td>
-								<td class="hidden-480"><h:outputText
-										value="#{activity.description}" /></td>
-								<td class="hidden-480"><h:outputText
-										value="#{activity.dateOfActivity}" /></td>
-								<!-- 							<td class="hidden-480"><h:outputText value="#{rec.user_id_demande}" /></td> -->
-				<td>				<h:column>
-										<h:form>
-											<h:commandLink id="btnsupp" value="Delete"
-												action="#{activityController.deleteActivityById(activity.id)}">
-
-												<i class="ace-icon fa fa-trash-o bigger-120 white"></i>
-											</h:commandLink>
-										</h:form>
-
-
-									</h:column>
-									</td>
-								<td><h:column>
-										<h:form>
-						<h:commandLink id="btnmodif" value="Update"
-							action="#{activityJsfController.gopageActivity(activity.id)}">
-							<f:param name="id" value="#{activity.id}" />
-						</h:commandLink>
-										</h:form>
-
-
-									</h:column></td>
-
-
-								<!-- 							</div> -->
-								<!-- 						</td> -->
-							</tr>
-						</ui:repeat>
-
-					</table>
+									<div class="col s12 input-field">
+										<h:commandLink value="Add Activity" styleClass="btn btn-large"
+											action="#{activityJsfController.updateActivityjsf()}"></h:commandLink>
+									</div>
+								</h:form>
 					</div>
 			</div>
 		</div>
-
 
 	<!-- 				<h:outputText
 					value="Number of events: #{eventController.getNombreEventJPQL()}" />-->

@@ -22,6 +22,7 @@ import tn.esprit.kidzone.entity.Event;
 @ELBeanName(value = "eventJsfController")
 @Join(path = "/eventJsf", to = "/SpringMVC/eventAdd.jsf")
 public class EventJsfController {
+	private int idEventToBeUpdated;
 
 	@Autowired
 	IEventService eventservice;
@@ -35,6 +36,12 @@ public class EventJsfController {
     private Date dateOfEvent;
 
 	
+	public int getIdEventToBeUpdated() {
+		return idEventToBeUpdated;
+	}
+	public void setIdEventToBeUpdated(int idEventToBeUpdated) {
+		this.idEventToBeUpdated = idEventToBeUpdated;
+	}
 	public int getId() {
 		return id;
 	}
@@ -93,23 +100,19 @@ public void deleteEvent(int Eventid) {
 }
 
 
-public void displayEvent(Event event){
+public String displayEvent(Event event){
+	String navigateTo = "/eventUpdate.xhtml?faces-redirect=true";
+	this.setIdEventToBeUpdated(event.getId());
 	this.setName(event.getName());
 	this.setDescription(event.getDescription());
 	this.setDateOfEvent(event.getDateOfEvent());
-	
+	return navigateTo;
 }
 
-public String updateEventjsf(int Eventid){
-	String navigateTo = "/event";
-	Event e=eventservice.getEventbyId(Eventid);
-	
-	e.setName(name);
-	System.out.println("****************"+name);
-	e.setDescription(description);
-	System.out.println("****************"+description);
-	e.setDateOfEvent(dateOfEvent);
-	eventservice.saveEvent(e);
+public String updateEventjsf(){
+
+	String navigateTo = "/eventsAll.xhtml?faces-redirect=true";
+	eventservice.addorupdateEvent(new Event(idEventToBeUpdated,name,description,dateOfEvent));
 	return navigateTo;
 }
 

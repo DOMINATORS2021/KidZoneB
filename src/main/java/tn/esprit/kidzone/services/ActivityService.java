@@ -1,16 +1,11 @@
 package tn.esprit.kidzone.services;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -175,4 +170,6 @@ public class ActivityService implements IActivityService {
 		Activityrep.save(activity);
 		return activity.getId();
 	}
+	
+	
 }

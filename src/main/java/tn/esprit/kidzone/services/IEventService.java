@@ -31,7 +31,7 @@ public interface IEventService {
     public Event getEventbyId(int Eventid);
     
 	Event saveEvent(Event event);
-    public int addorupdateEvent(Event event);
+    public String addorupdateEvent(Event event);
 
 
 }

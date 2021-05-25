@@ -227,13 +227,13 @@
 					<h:form id="event-form">
 									<div class="col s12 input-field">
 						<p:outputLabel for="name" value="Name: " /> <br></br>
-					<p:inputText id="name" value="#{eventJsfUpdateController.name}" /><br></br>
+					<p:inputText id="name" value="#{eventJsfController.name}" /><br></br>
 					<p:outputLabel for="description" value="Description: " /><br></br>
 					<p:inputText id="description"
-						value="#{eventJsfUpdateController.description}" /><br></br>
+						value="#{eventJsfController.description}" /><br></br>
 					<p:outputLabel for="dateOfEvent" value="Date: " /><br></br>
 					<p:inputText id="dateOfEvent"
-						value="#{eventJsfUpdateController.dateOfEvent}"
+						value="#{eventJsfController.dateOfEvent}"
 						p:placeholder="yyyy-mm-dd">
 						<f:convertDateTime pattern="yyyy-MM-dd" />
 					</p:inputText><br></br>
@@ -243,7 +243,7 @@
 
 									<div class="col s12 input-field">
 										<h:commandLink value="Update Event" styleClass="btn btn-large"
-										action="#{eventJsfUpdateController.updateEventjsf(event.Eventid)}"></h:commandLink>
+										action="#{eventJsfController.updateEventjsf()}"></h:commandLink>
 																						
 									</div>
 								</h:form>
