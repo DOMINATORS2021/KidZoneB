@@ -1,13 +1,17 @@
 package tn.esprit.kidzone.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import tn.esprit.kidzone.services.IEventService;
+import tn.esprit.kidzone.entity.Activity;
 import tn.esprit.kidzone.entity.Event;
 
 @Scope(value = "session")
@@ -34,8 +39,14 @@ public class EventJsfController {
 	@Temporal (TemporalType.DATE)
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date dateOfEvent;
-
+	private int nbPlaces;
 	
+	public int getNbPlaces() {
+		return nbPlaces;
+	}
+	public void setNbPlaces(int nbPlaces) {
+		this.nbPlaces = nbPlaces;
+	}
 	public int getIdEventToBeUpdated() {
 		return idEventToBeUpdated;
 	}
@@ -86,7 +97,7 @@ public class EventJsfController {
 	}
 	 
 	public String addEvent() {
-		 eventservice.ajouterEventbyUser(new Event(name,description,dateOfEvent) );
+		 eventservice.ajouterEventbyUser(new Event(name,description,dateOfEvent,nbPlaces) );
 		return "/SpringMVC/eventAll.xhtml?faces-redirect=true";
 
 		}
@@ -106,13 +117,14 @@ public String displayEvent(Event event){
 	this.setName(event.getName());
 	this.setDescription(event.getDescription());
 	this.setDateOfEvent(event.getDateOfEvent());
+	this.setNbPlaces(event.getNbPlaces());
 	return navigateTo;
 }
 
 public String updateEventjsf(){
 
 	String navigateTo = "/eventsAll.xhtml?faces-redirect=true";
-	eventservice.addorupdateEvent(new Event(idEventToBeUpdated,name,description,dateOfEvent));
+	eventservice.addorupdateEvent(new Event(idEventToBeUpdated,name,description,dateOfEvent,nbPlaces));
 	return navigateTo;
 }
 
@@ -120,5 +132,21 @@ public String updateEventjsf(){
 public String gopageEvent(Long Eventid){
 	
 	return "/eventUpdate.xhtml?faces-redirect=true&idevent=" + Eventid.toString();
+}
+
+public CartesianChartModel createRigTestModel() {
+	CartesianChartModel  cartChart = new CartesianChartModel();
+    ChartSeries rigs = new ChartSeries();
+    List<Event> rList = eventservice.getAllEvents();
+    Map<Object, Number> rigMap = new HashMap<>();        
+    for(Event o: rList) {
+      
+        rigMap.put(o.getName(), o.getNbPlaces());
+        
+        rigs.setData(rigMap) ;
+       cartChart.addSeries(rigs);
+       
+    }
+    return cartChart;
 }
 }

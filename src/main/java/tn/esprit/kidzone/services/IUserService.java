@@ -5,13 +5,18 @@ import tn.esprit.kidzone.entity.*;
 
 
 public interface IUserService {
-	List<User> retrieveAllUsers();
-	User addUser(User u);
-	void deleteUser(String id);
+	public List<User> getAllUsers();
+	void addUser(User u);
+	void deleteUser(Long id);
 	User updateUser(User u);
-	User retrieveUser(String id);
-	
+	void resetFailedAttempts(String login);
+	void increaseFailedAttempts(User userAtt);
+	void lock(User userAtt);
+	public boolean unlockWhenTimeExpired(User userToUnlock);
+	User findEmail(String login);
 	public User authenticate(String login, String password);
-	
+	public User getUserById(Long id);
+	public String addOrUpdateUser(User user);
+
 
 }

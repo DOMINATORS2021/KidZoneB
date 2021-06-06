@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import tn.esprit.kidzone.services.IAppointmentService;
+import tn.esprit.kidzone.entity.Activity;
 import tn.esprit.kidzone.entity.Appointment;
 
 @Scope(value = "session")
@@ -28,6 +29,7 @@ public class AppointmentJsfController {
 	@Autowired
 	IAppointmentService appointmentservice;
 	
+	private int idAppointmentToBeUpdated;
 	
 	private int id;
 
@@ -43,6 +45,15 @@ public class AppointmentJsfController {
 	
 	private String status;	
 	
+	
+	public int getIdAppointmentToBeUpdated() {
+		return idAppointmentToBeUpdated;
+	}
+
+	public void setIdAppointmentToBeUpdated(int idAppointmentToBeUpdated) {
+		this.idAppointmentToBeUpdated = idAppointmentToBeUpdated;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -122,31 +133,25 @@ public void deleteAppointment(int appointmentId) {
 
 
 public void displayAppointment(Appointment appointment){
+	String navigateTo = "/appointmentUpdate.xhtml?faces-redirect=true";
+	this.setIdAppointmentToBeUpdated(appointment.getId());
 	this.setDescription(appointment.getDescription());
+	this.setDate(appointment.getDate());
 	this.setBeginhour(appointment.getBeginhour());
 	this.setEndhour(appointment.getEndhour());
 	
 }
 
-public String updateAppointmentjsf(int appointmentId){
-	String navigateTo = "/event";
-	Appointment e=appointmentservice.getAppointmentbyId(appointmentId);
-	
-	e.setDescription(description);
-	System.out.println("****************"+description);
-	e.setBeginhour(beginhour);
-	System.out.println("****************"+beginhour);
-	e.setEndhour(endhour);
-	System.out.println("****************"+endhour);
-	e.setDate(date);
-	appointmentservice.saveAppointment(e);
+public String updateAppointmentjsf(){
+	String navigateTo = "/appointmentAll.xhtml?faces-redirect=true";
+	appointmentservice.addorupdateAppointment(new Appointment(idAppointmentToBeUpdated,description,date,beginhour,endhour));
 	return navigateTo;
 }
 
 
-public String gopageEvent(Long Eventid){
+public String gopageAppointment(Long appointmentId){
 	
-	return "/eventUpdate.xhtml?faces-redirect=true&idstock=" + Eventid.toString();
+	return "/appointmentUpdate.xhtml?faces-redirect=true&idappointment=" + appointmentId.toString();
 }
 
 

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import tn.esprit.kidzone.entity.Activity;
 import tn.esprit.kidzone.entity.Bill;
 import tn.esprit.kidzone.services.IBillService;
 
@@ -26,7 +27,7 @@ public class BillJsfController {
 	@Autowired
 	IBillService billsservice;
 	
-	
+	private int	idBillToBeUpdated;
 	private int id;
 
 	private String description;
@@ -36,6 +37,14 @@ public class BillJsfController {
     private Date dateOfBill;
 	
 	private float totalPrice;
+
+	public int getIdBillToBeUpdated() {
+		return idBillToBeUpdated;
+	}
+
+	public void setIdBillToBeUpdated(int idBillToBeUpdated) {
+		this.idBillToBeUpdated = idBillToBeUpdated;
+	}
 
 	public int getId() {
 		return id;
@@ -96,24 +105,22 @@ public void deleteBill(int bill_Id) {
 }
 
 
-public void displayAppointment(Bill appointment){
-	this.setDescription(appointment.getDescription());
-	this.setDateOfBill(appointment.getDateOfBill());
-	this.setTotalPrice(appointment.getTotalPrice());
+public void displayBill(Bill bill){
+	String navigateTo = "/BillUpdate.xhtml?faces-redirect=true";
+	this.setIdBillToBeUpdated(bill.getId());
+	this.setDescription(bill.getDescription());
+	this.setDateOfBill(bill.getDateOfBill());
+	this.setTotalPrice(bill.getTotalPrice());
 	
 }
 
-public String updateAppointmentjsf(int bill_Id){
-	String navigateTo = "/event";
-	Bill e=billsservice.getBillbyId(bill_Id);
-	
-	e.setDescription(description);
-	System.out.println("****************"+description);
-	e.setDateOfBill(dateOfBill);
-	System.out.println("****************"+dateOfBill);
-	e.setTotalPrice(totalPrice);
-	System.out.println("****************"+totalPrice);
-	billsservice.saveBill(e);
+public String updateBilljsf(){
+	String navigateTo = "/billAll.xhtml?faces-redirect=true";
+	billsservice.addorupdateBill(new Bill(idBillToBeUpdated,description,dateOfBill,totalPrice));
 	return navigateTo;
+}
+public String gopageBill(Long billId){
+	
+	return "/billUpdate.xhtml?faces-redirect=true&idactivity=" + billId.toString();
 }
 }

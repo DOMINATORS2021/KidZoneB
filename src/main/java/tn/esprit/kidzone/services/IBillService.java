@@ -9,7 +9,7 @@ public interface IBillService {
 
 	public String ajout_Bill_To_User(Long id_user, int id_kinder, Bill bill);
 
-	public String delete_Bill(int id_kinder, int id_bill);
+	public void deleteBill(int id_bill);
 
 	public List<Bill> getAllBill();
 

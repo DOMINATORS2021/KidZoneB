@@ -1,7 +1,9 @@
 package tn.esprit.kidzone.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,6 +12,8 @@ import javax.persistence.TemporalType;
 
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -20,6 +24,7 @@ import tn.esprit.kidzone.services.IActivityService;
 import tn.esprit.kidzone.entity.Activity;
 import tn.esprit.kidzone.entity.Category;
 import tn.esprit.kidzone.entity.Event;
+import tn.esprit.kidzone.entity.User;
 
 @Scope(value = "session")
 @Component(value = "activityJsfController")
@@ -132,4 +137,6 @@ public String gopageActivity(Long activityId){
 	
 	return "/activityUpdate.xhtml?faces-redirect=true&idactivity=" + activityId.toString();
 }
+
+
 }

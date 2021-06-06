@@ -4,16 +4,17 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.ManagedBean;
 import javax.persistence.*;
-
-import tn.esprit.kidzone.entity.Reclamation;
-import tn.esprit.kidzone.entity.ListParticipants;
-import tn.esprit.kidzone.entity.Child;
 
 
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -26,12 +27,38 @@ public class User implements Serializable {
 	@Column (nullable = false, length = 20)
 	private String lastName;
 	@Column (nullable = false)
-	private boolean enabled;
+	private boolean actif;
 	@Column (nullable = false)
 	@Enumerated (EnumType.STRING) 
 	private RoleName role;
-	@Temporal (TemporalType.DATE)
-	private Date date;
+	@Column(name = "failed_attempt")
+	private int failedAttempt;
+
+	@Column(name = "lock_time")
+	private Date lockTime;
+	@Column(name = "account_non_locked")
+	private boolean accountNonLocked;
+	
+	
+	
+	public boolean isAccountNonLocked() {
+		return accountNonLocked;
+	}
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+	public int getFailedAttempt() {
+		return failedAttempt;
+	}
+	public void setFailedAttempt(int failedAttempt) {
+		this.failedAttempt = failedAttempt;
+	}
+	public Date getLockTime() {
+		return lockTime;
+	}
+	public void setLockTime(Date lockTime) {
+		this.lockTime = lockTime;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -57,54 +84,72 @@ public class User implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public boolean isEnabled() {
-		return enabled;
-	}
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+
 	public RoleName getRole() {
 		return role;
 	}
 	public void setRole(RoleName role) {
 		this.role = role;
 	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
+
 	
 	
+	public boolean isActif() {
+		return actif;
+	}
+	public void setActif(boolean actif) {
+		this.actif = actif;
+	}
 	public String getLogin() {
 		return login;
 	}
 	public void setLogin(String login) {
 		this.login = login;
 	}
-	public User(Long id, String login, String firstName, String password, String lastName, boolean enabled, RoleName role,
-			Date date) {
-		super();
+	
+	public User(Long id, String login, String firstName, String password, String lastName, boolean actif, RoleName role,
+			int failedAttempt, Date lockTime, boolean accountNonLocked) {
 		this.id = id;
 		this.login = login;
 		this.firstName = firstName;
 		this.password = password;
 		this.lastName = lastName;
-		this.enabled = enabled;
+		this.actif = actif;
 		this.role = role;
-		this.date = date;
+		this.failedAttempt = failedAttempt;
+		this.lockTime = lockTime;
+		this.accountNonLocked = accountNonLocked;
 	}
-	
 	public User() {
-	}
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", email=" + login + ", firstName=" + firstName + ", password=" + password
-				+ ", lastName=" + lastName + ", enabled=" + enabled + ", role=" + role + ", date=" + date + "]";
 	}
 	public User (String name){
 		this.firstName=name;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + login + ", firstName=" + firstName + ", password=" + password
+				+ ", lastName=" + lastName + ", enabled=" + actif + ", role=" + role +  "]";
+	}
+	public User(String login, String firstName, String password, String lastName, boolean actif) {
+		super();
+		this.login = login;
+		this.firstName = firstName;
+		this.password = password;
+		this.lastName = lastName;
+		this.actif=true;
+	}
+
+	public User(Long id, String login, String firstName, String password, String lastName, boolean actif) {
+		super();
+		this.id=id;
+		this.login = login;
+		this.firstName = firstName;
+		this.password = password;
+		this.lastName = lastName;
+		this.actif=true;
+		
 	}
 	@OneToMany(mappedBy="user")
 	private List<Child> list_child;
@@ -132,6 +177,4 @@ public class User implements Serializable {
 	public void setList_participants(List<ListParticipants> list_participants) {
 		this.list_participants = list_participants;
 	}
-
-
 }

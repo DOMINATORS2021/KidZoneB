@@ -42,9 +42,9 @@ public class BillRestControllerImpl {
 	}
 
 	@DeleteMapping("/delete_Bill/{id_kinder}/{id_bill}")
-	public String delete_Bill(@PathVariable("id_kinder") int id_kinder, @PathVariable("id_bill") int id_bill) {
-
-		return bills.delete_Bill(id_kinder, id_bill);
+	public ResponseEntity<String> deleteBill(@PathVariable("id_bill") int id_bill) {
+bills.deleteBill(id_bill);
+return new ResponseEntity<String>("deleted succesfuly", HttpStatus.OK);
 
 	}
 

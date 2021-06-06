@@ -1,39 +1,71 @@
 package tn.esprit.kidzone.controller;
 
-import java.util.List;
 
-import javax.annotation.ManagedBean;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.repository.query.Param;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
 import tn.esprit.kidzone.entity.RoleName;
 import tn.esprit.kidzone.entity.User;
+import tn.esprit.kidzone.repository.UserRepository;
+import tn.esprit.kidzone.services.EmailSenderService;
 import tn.esprit.kidzone.services.IUserService;
-@ManagedBean
-@ViewScoped
+import tn.esprit.kidzone.services.UserServiceImpl;
+
+
 @Scope(value = "session")
 @Component(value = "userController")
 @ELBeanName(value = "userController")
 @Join(path = "/", to = "/HomePage.jsf")
-public class UserController {
-	private  static String currentUser ;
-	
-	 
 
-	public static String getCurrentUser() {
+public class UserController {
+	private Long userIdToBeUpdated;
+	
+	private User currentUser ;
+
+	@Autowired
+	 EmailSenderService email;
+
+
+
+
+	 @Autowired
+	UserRepository repo;
+	 
+	 
+	public User getCurrentUser() {
 		return currentUser;
 	}
 
-	public static void setCurrentUser(String currentUser) {
-		UserController.currentUser = currentUser;
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
+	}
+
+	public RoleName[] getRoles() {
+		return RoleName.values();
+		}
+	public EmailSenderService getEmail() {
+		return email;
+	}
+
+	public void setEmail(EmailSenderService email) {
+		this.email = email;
 	}
 
 
@@ -46,44 +78,81 @@ public class UserController {
 		this.name = name;
 	}
 
-	private String login; private String password; private User user;
+	private String login; private String password; private User user; private String firstName;
+	private String lastName; private boolean actif; private Long id; private RoleName role;
     private Boolean loggedIn;
     @Autowired
     IUserService userService;
-	    
-	    
+	private List<User> users;
+	 public UserController() {
+	}
 
-
+	
 			public String doLogin() {
+				
 	        	String navigateTo = "null";
-	        	
-	        	User u=userService.authenticate(login, password);
-	        	currentUser = u.getLastName();
-	        	if (u != null && u.getRole() == RoleName.ADMINISTRATEUR) {
-	        	navigateTo = "/pages/admin/listusers.xhtml?faces-redirect=true";
-	        	this.name =u.getFirstName();
+        	User userAtt= userService.findEmail(login);
+	        	currentUser=userService.authenticate(login, password);
+	        	if(currentUser != null &&  currentUser.isActif() ){
+	        	userService.resetFailedAttempts(login);	
+	        	if ( currentUser.getRole() == RoleName.ADMINISTRATEUR &&  currentUser.isActif()) {
+	        		
+	        	navigateTo = "/pages/admin/HomePage.xhtml?faces-redirect=true";
+	        	this.name =currentUser.getFirstName();
 	        	loggedIn = true;
-	        	
+	        											
 	        	}
-	        	else if (u != null && u.getRole() == RoleName.USER) {
-	        			navigateTo = "/welcome.xhtml?faces-redirect=true";
+	        	if(! currentUser.isActif() ){
+	        		loggedIn=false;
+	        		FacesMessage facesMessage =
+	    		        	new FacesMessage("Your account is locked right now ");
+
+	    		        	FacesContext.getCurrentInstance().addMessage("form:btn",facesMessage);		
+	        	}
+	        	else if ( currentUser.getRole() == RoleName.USER &&  currentUser.isActif()) {
+	        			navigateTo = "/pages/admin/HomePage.xhtml?faces-redirect=true";
 	        	loggedIn = true;
 	        	
-	        	
+    		        
+	        	}
 	        	}
 	        	else {
-	        	FacesMessage facesMessage =
+	        		try{
+	        		if(repo.getfailedAttempt(login) < UserServiceImpl.MAX_FAILED_ATTEMPTS -1 ){
+		        		userService.increaseFailedAttempts(userAtt);
+		        		FacesMessage facesMessage =
+	        		        	new FacesMessage("Login failed ! Bad credentials");
 
-	        	new FacesMessage("Login Failed: please check your username/password and try again.");
+	        		        	FacesContext.getCurrentInstance().addMessage("form:btn",facesMessage);
+	        		        	repo.setActiftoFalse(login);
+	        		        	
+	        		
+	        			
+	          	
+	        		}
+	        		
+	        		
+	        		else{
+	        			userService.lock(userAtt);
+	        			FacesMessage facesMessage =
 
-	        	FacesContext.getCurrentInstance().addMessage("form:btn",facesMessage);
+	        		        	new FacesMessage("Your account has been locked due to 3 failed attempts."
+                                    + " It will be unlocked after 24 hours");
+	        			            
+
+	        		        	FacesContext.getCurrentInstance().addMessage("form:btn",facesMessage);
+	        		}
+	        		}catch(Throwable e){
+	        			
+	        		}
 	        	}
 	        	return navigateTo;
 	        	}
+			
 
 	        	public String doLogout() {
 	        	FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-	        	return "/SpringMVC/SignIN.jsf?faces-redirect=true";
+	        	return "/SpringMVC/LoginTemplate.jsf?faces-redirect=true";
 	        	}
 
 				public String getLogin() {
@@ -102,6 +171,15 @@ public class UserController {
 					this.password = password;
 				}
 
+				
+				public Long getId() {
+					return id;
+				}
+
+				public void setId(Long id) {
+					this.id = id;
+				}
+
 				public User getUser() {
 					return user;
 				}
@@ -118,21 +196,163 @@ public class UserController {
 					this.loggedIn = loggedIn;
 				}
 				
-			    public List<User> getUsers(){
+				
+			    public String getFirstName() {
+					return firstName;
+				}
+
+				public void setFirstName(String firstName) {
+					this.firstName = firstName;
+				}
+
+				public String getLastName() {
+					return lastName;
+				}
+
+				public void setLastName(String lastName) {
+					this.lastName = lastName;
+				}
+
+
+				public boolean isActif() {
+					return actif;
+				}
+
+				public void setActif(boolean actif) {
+					this.actif = actif;
+				}
+
+				public IUserService getUserService() {
+					return userService;
+				}
+
+				public void setUserService(IUserService userService) {
+					this.userService = userService;
+				}
+
+
+				public UserController(String login, String password, String firstName,
+						String lastName, boolean actif) {
+		
+					this.login = login;
+					this.password = password;
+					this.firstName = firstName;
+					this.lastName = lastName;
+					this.actif = actif;
+				}
+				
+
+				public RoleName getRole() {
+					return role;
+				}
+
+				public void setRole(RoleName role) {
+					this.role = role;
+				}
+
+				public UserController(String login, String password, String firstName, String lastName) {
+					this.login = login;
+					this.password = password;
+					this.firstName = firstName;
+					this.lastName = lastName;
+				}
+
+				public String deleteUser(Long id){
+					userService.deleteUser(id);
+					return "/pages/admin/ListAllUsers.xhtml?faces-redirect=true";
+				}
+				
+			   
+			    public List<User> getAllUsers() {
+			    	return userService.getAllUsers();
 			    	
 			    	
-			    	return userService.retrieveAllUsers();
+				}
+
+				public void setUsers(List<User> users) {
+					this.users = users;
+				}
+
+				public String AjouterUser(){
+			    userService.addUser(new User(login,firstName,password,lastName,actif));
+			    SimpleMailMessage mailMessage = new SimpleMailMessage();
+		        mailMessage.setTo(login);
+		        mailMessage.setSubject("Complete Registration!");
+		        mailMessage.setFrom("mouradjomaa9@gmail.com");
+		        mailMessage.setText("Welcome to our plateform , Your account has been activated now ! You can login to your account via this link :"
+		        		+ ""
+		        		+ ""
+		        		+ ""
+		        		+ "http://localhost:8081/SpringMVC/HomePage.jsf  "
+		                );
+		        
+		        email.sendEmail(mailMessage);
+					return "/SpringMVC/LoginTemplate.xhtml?faces-redirect=true";
+			    	
 			    }
-			    
-			    public void addUser(User u){
-			    	
-			    	u.setEnabled(true);
-			    	u.setRole(RoleName.USER);
-			    	
-			    	userService.addUser(u);
-			    	
-			    }
-	    }
+				
+				public String DisplayUser(User u)
+				{
+					String navigateTo = "/pages/admin/userUpdate.xhtml?faces-redirect=true";
+				this.setFirstName(u.getFirstName());
+				this.setLastName(u.getLastName());
+				this.setActif(u.isActif());
+				this.setLogin(u.getLogin());
+				this.setRole(u.getRole());
+				this.setPassword(u.getPassword());
+				this.setUserIdToBeUpdated(u.getId());
+				return navigateTo;
+				}
+//				public String updateUser(Long id){
+//					String navigateTo = "/pages/admin/ListAllUsers.xhtml?faces-redirect=true";
+//					User u=userService.getUserById(id);
+//					u.setId(u.getId());
+//					u.setFirstName(u.getFirstName());
+//					System.out.println("****************"+firstName);
+//					u.setLastName(u.getLastName());
+//					System.out.println("****************"+lastName);
+//					u.setLogin(u.getLogin());
+//					System.out.println("****************"+login);
+//					u.setPassword(u.getPassword());
+//					userService.addUser(u);
+//					return navigateTo;
+//				}
+
+				public Long getUserIdToBeUpdated() {
+					return userIdToBeUpdated;
+				}
+
+				public void setUserIdToBeUpdated(Long userIdToBeUpdated) {
+					this.userIdToBeUpdated = userIdToBeUpdated;
+				}
+				public String updateUser()
+				{ 
+				String navigateTo = "/pages/admin/ListAllUsers.xhtml?faces-redirect=true";
+					userService.addOrUpdateUser(new User(userIdToBeUpdated,login,firstName,password,lastName,actif)); 
+				
+				
+				return navigateTo;
+				
+				}
+				
+				public CartesianChartModel createRigTestModel() {
+					CartesianChartModel  cartChart = new CartesianChartModel();
+			        ChartSeries rigs = new ChartSeries();
+			        List<User> rList = userService.getAllUsers();
+			        Map<Object, Number> rigMap = new HashMap<>();        
+			        for(User o: rList) {
+			          
+			            rigMap.put(o.getFirstName(), o.getFailedAttempt());
+			            
+			            rigs.setData(rigMap) ;
+			           cartChart.addSeries(rigs);
+				       
+			        }
+			        return cartChart;
+
+				}
+    	   
+       }				
 
 
 

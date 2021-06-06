@@ -166,7 +166,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="/SpringMVC/SignIN.jsf">Login</a>
+      <a class="navbar-brand" href="/SpringMVC/login1.jsf">Logout</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
@@ -178,6 +178,16 @@
             <li><a href="/SpringMVC/eventAdd.jsf">Add event</a></li>
             <li><a href="/SpringMVC/eventsAll.jsf">Events list</a></li>
             <li><a href="/SpringMVC/eventsAllToday.jsf">Today's Events</a></li> 
+            <li><a href="/SpringMVC/eventNbPlaces.jsf">Events Stat</a></li> 
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">USER
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/SpringMVC/register.jsf">Add user</a></li>
+            <li><a href="/SpringMVC/pages/admin/ListAllUsers.jsf">ListAllUsers</a></li>
+            <li><a href="/SpringMVC/pages/admin/statistics.jsf"> Enabled Accounts</a></li>
           </ul>
         </li>
         <li class="dropdown">
@@ -265,7 +275,8 @@
 				<td>				<h:column>
 										<h:form>
 											<h:commandLink id="btnsupp" value="Delete"
-											>
+										action="#{BillController.deleteBill(bill.id)}">
+											
 
 												<i class="ace-icon fa fa-trash-o bigger-120 white"></i>
 											</h:commandLink>
@@ -277,7 +288,8 @@
 								<td><h:column>
 										<h:form>
 						<h:commandLink id="btnmodif" value="Update"
-						>
+										action="#{billJsfController.gopageBill(bill.id)}">
+							<f:param name="id" value="#{bill.id}" />		
 						</h:commandLink>
 										</h:form>
 

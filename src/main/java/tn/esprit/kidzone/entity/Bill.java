@@ -126,7 +126,14 @@ public class Bill implements Serializable {
 	}
 	
 	
-
+	public Bill(int id ,String description, Date dateOfBill, float totalPrice) {
+		super();
+		this.id=id;
+		Description = description;
+		DateOfBill = dateOfBill;
+		TotalPrice = totalPrice;
+	}
+	
 	
 
 

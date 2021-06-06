@@ -39,7 +39,7 @@ public class Event implements Serializable {
 	@Size(min = 5, max = 300)
 	private String Description;
 	
-	
+	private int NbPlaces;
 	
 
 	@JsonFormat(pattern="yyyy-MM-dd")
@@ -50,12 +50,23 @@ public class Event implements Serializable {
 	@Column (columnDefinition="MEDIUMBLOB")
 	private String Photo;
 	
-	public Event(String name, String description, Date dateOfEvent, String photo) {
+	public Event(String name, String description, Date dateOfEvent, String photo,int nbPlaces) {
 		super();
 		Name = name;
 		Description = description;
 		DateOfEvent = dateOfEvent;
 		Photo = photo;
+		NbPlaces=nbPlaces;
+	}
+
+
+	public int getNbPlaces() {
+		return NbPlaces;
+	}
+
+
+	public void setNbPlaces(int nbPlaces) {
+		NbPlaces = nbPlaces;
 	}
 
 
@@ -144,20 +155,24 @@ public class Event implements Serializable {
 	}
 
 
-	public Event(int id, String name, String description, Date dateOfEvent) {
+	public Event(int id, String name, String description, Date dateOfEvent,int nbPlaces) {
 		super();
 		this.id = id;
 		Name = name;
 		Description = description;
 		DateOfEvent = dateOfEvent;
+		NbPlaces=nbPlaces;
+
 	}
 
 
-	public Event(String name, String description, Date dateOfEvent) {
+	public Event(String name, String description, Date dateOfEvent,int nbPlaces) {
 		super();
 		Name = name;
 		Description = description;
 		DateOfEvent = dateOfEvent;
+		NbPlaces=nbPlaces;
+
 	}
 
 

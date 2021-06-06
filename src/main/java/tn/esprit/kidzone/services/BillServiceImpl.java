@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tn.esprit.kidzone.entity.Activity;
 import tn.esprit.kidzone.entity.Appointment;
 import tn.esprit.kidzone.entity.Bill;
 import tn.esprit.kidzone.entity.Kindergarten;
@@ -41,27 +42,10 @@ public class BillServiceImpl implements IBillService {
 		}
 	}
 
-	public String delete_Bill(int id_kinder, int id_bill) {
-		Kindergarten kinder = kinders.findById(id_kinder).orElse(null);
-		Bill bill = bills.findById(id_bill).orElse(null);
-		if (bill == null) {
-			return ("bill n'existe pas");
-		}
-		if (kinder.getUserkinder().getRole().toString() == "Director") {
-			if (kinder.getId() == bill.getKindergarten().getId()) {
-
-				bills.deleteById(bill.getId());
-				return ("bill est supprimé");
-			}
-
-			else {
-				return ("Supprision non autorisée");
-			}
-		}
-
-		else {
-			return ("user n'est pas un directeur");
-		}
+	@Override
+	public void deleteBill(int bill_id) {
+		Bill a =bills.findById(bill_id).orElse(null);
+		bills.delete(a);
 
 	}
 
