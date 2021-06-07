@@ -132,19 +132,20 @@ public void deleteAppointment(int appointmentId) {
 }
 
 
-public void displayAppointment(Appointment appointment){
+public String displayAppointment(Appointment appointment){
 	String navigateTo = "/appointmentUpdate.xhtml?faces-redirect=true";
 	this.setIdAppointmentToBeUpdated(appointment.getId());
 	this.setDescription(appointment.getDescription());
 	this.setDate(appointment.getDate());
 	this.setBeginhour(appointment.getBeginhour());
 	this.setEndhour(appointment.getEndhour());
+	return navigateTo;
 	
 }
 
 public String updateAppointmentjsf(){
 	String navigateTo = "/appointmentAll.xhtml?faces-redirect=true";
-	appointmentservice.addorupdateAppointment(new Appointment(idAppointmentToBeUpdated,description,date,beginhour,endhour));
+	appointmentservice.updateAppointment(new Appointment(idAppointmentToBeUpdated,description,date,beginhour,endhour));
 	return navigateTo;
 }
 

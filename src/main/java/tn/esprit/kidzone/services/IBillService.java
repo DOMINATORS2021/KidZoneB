@@ -33,7 +33,7 @@ public interface IBillService {
     public Bill getBillbyId(int bill_Id);
     
     Bill saveBill(Bill bill);
-    public int addorupdateBill(Bill bill);
+    public String addorupdateBill(Bill bill);
 
 	public void deleteBillbyId(int bill_Id);
 

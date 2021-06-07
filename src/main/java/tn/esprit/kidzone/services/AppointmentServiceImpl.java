@@ -247,9 +247,9 @@ public class AppointmentServiceImpl implements IAppointmentService {
 
 	}
 	@Override
-	public int addorupdateAppointment(Appointment appointment) {
+	public String updateAppointment(Appointment appointment) {
 		appointments.save(appointment);
-		return appointment.getId();
+		return null;
 	}
 	
 	@Override

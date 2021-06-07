@@ -38,7 +38,8 @@ public interface IAppointmentService {
     public Appointment getAppointmentbyId(int appointmentId);
     
     Appointment saveAppointment(Appointment appointment);
-    public int addorupdateAppointment(Appointment appointment);
+    
+    public String updateAppointment(Appointment appointment);
 
 	public void deleteAppointmentbyId(int appointmentId);
 

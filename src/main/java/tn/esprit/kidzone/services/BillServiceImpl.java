@@ -135,9 +135,9 @@ public class BillServiceImpl implements IBillService {
 
 	}
 	@Override
-	public int addorupdateBill(Bill bill) {
+	public String addorupdateBill(Bill bill) {
 		bills.save(bill);
-		return bill.getId();
+		return null;
 	}
 	
 	@Override

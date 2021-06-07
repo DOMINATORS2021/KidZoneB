@@ -84,7 +84,7 @@ public class BillJsfController {
 	
 	
 	public BillJsfController(int id, String description, Date dateOfBill,float totalPrice) {
-		super();
+		
 		this.id = id;
 		this.description = description;
 		this.dateOfBill = dateOfBill;
@@ -105,13 +105,13 @@ public void deleteBill(int bill_Id) {
 }
 
 
-public void displayBill(Bill bill){
-	String navigateTo = "/BillUpdate.xhtml?faces-redirect=true";
+public String displayBill(Bill bill){
+	String navigateTo = "/billUpdate.xhtml?faces-redirect=true";
 	this.setIdBillToBeUpdated(bill.getId());
 	this.setDescription(bill.getDescription());
 	this.setDateOfBill(bill.getDateOfBill());
 	this.setTotalPrice(bill.getTotalPrice());
-	
+	return navigateTo;
 }
 
 public String updateBilljsf(){
