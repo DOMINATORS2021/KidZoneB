@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body style="margin:50px;">
+
+ <center>  <h1>Number of bills by Price <h4>(over or under 1000)</h4> </h1></center> 
+         <a href="/SpringMVC/billAll.jsf">Bills list</a>
+    
+        <p:chart type="pie"
+                 responsive="true"
+                 model="#{billPie.model}" />
+
+</h:body>
+</html>
