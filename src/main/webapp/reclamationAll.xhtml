@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="layout.xhtml">
+	<ui:define name="content">
+		<h:form id="form">
+			<p:panel header="Reclamations List">
+				<p:dataTable id="table" var="reclamation"
+					value="#{reclamationController.listReclamations()}">
+					<p:column>
+						<f:facet name="header">Id</f:facet>
+						<h:outputText value="#{reclamation.id}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Type</f:facet>
+						<h:outputText value="#{reclamation.type}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Description</f:facet>
+						<h:outputText value="#{reclamation.description}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Status</f:facet>
+						<h:outputText value="#{reclamation.status}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Date</f:facet>
+						<h:outputText value="#{reclamation.dateOfReclam}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">User</f:facet>
+						<h:outputText value="#{reclamation.user.firstName}" />
+					</p:column>
+					<p:column>
+						<h:commandLink id="btnsupp" value="Delete"
+							action="#{ActivityController.DeleteReclamation(reclamation.id)}">
+
+							<i class="ace-icon fa fa-trash-o bigger-120 white"></i>
+						</h:commandLink>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
