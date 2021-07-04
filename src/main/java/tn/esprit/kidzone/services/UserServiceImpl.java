@@ -71,12 +71,12 @@ public class UserServiceImpl implements IUserService{
 	public void increaseFailedAttempts(User userAttempt) {
 		int newFailAttempts = userAttempt.getFailedAttempt() + 1;
 		repo.updateFailedAttempts(newFailAttempts, userAttempt.getLogin());
-		l.info("Failed attempts has been affected by 1 **successefully**");
+		l.info("Failed attempts have been affected by 1 **successefully**");
 	}
 	/* sets the number of failed attempts to zero. This method will be called when the user has logged in successfully. */
 	public void resetFailedAttempts(String login) {
 		repo.updateFailedAttempts(0, login);
-		l.info("Failed attempts has been all reseted **successefully**");
+		l.info("Failed attempts have been all reseted **successefully**");
 	}
 
 	/*  locks the user’s account if the number of failed logins reach the maximum allowed times */
